@@ -1,21 +1,21 @@
-package com.example.jetpackcomposeonboardingscreen.presentation.viewmodel
+package com.example.jetpackcomposeonboardingscreen.feature_onboarding.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.jetpackcomposeonboardingscreen.feature_onboarding.data.DatastoreRepository
+import com.example.jetpackcomposeonboardingscreen.feature_onboarding.data.DataStoreRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
 @HiltViewModel
 class WelcomeViewModel @Inject constructor(
-    private val repository: DatastoreRepository
-    ) : ViewModel() {
+    private val repository: DataStoreRepository
+): ViewModel() {
+
     fun saveOnBoardingState(completed: Boolean) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO){
             repository.saveOnBoardingState(completed = completed)
         }
     }
-    }
+}

@@ -1,4 +1,4 @@
-package com.example.jetpackcomposeonboardingscreen.core.util
+package com.example.jetpackcomposeonboardingscreen.feature_onboarding.util
 
 object Routes {
     const val SPLASH_SCREEN = "splash_screen"

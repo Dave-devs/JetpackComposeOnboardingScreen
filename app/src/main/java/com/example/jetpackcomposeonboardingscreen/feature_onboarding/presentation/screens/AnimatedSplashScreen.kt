@@ -1,4 +1,4 @@
-package com.example.jetpackcomposeonboardingscreen.presentation.screens
+package com.example.jetpackcomposeonboardingscreen.feature_onboarding.presentation.screens
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -20,27 +20,33 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.jetpackcomposeonboardingscreen.R
 import com.example.jetpackcomposeonboardingscreen.core.util.Constants.DELAY
 import com.example.jetpackcomposeonboardingscreen.core.util.Constants.DURATION_MILLIS
-import com.example.jetpackcomposeonboardingscreen.core.util.Routes
+import com.example.jetpackcomposeonboardingscreen.feature_onboarding.presentation.viewmodel.SplashViewModel
+import com.example.jetpackcomposeonboardingscreen.feature_onboarding.util.Routes
 import kotlinx.coroutines.delay
 
 @Composable
-fun AnimatedSplashScreen() {
-    var startAnim by remember { mutableStateOf(false) }
+fun AnimatedSplashScreen(
+    navController: NavController,
+    splashViewModel: SplashViewModel = hiltViewModel()
+) {
+    //var startAnim by remember { mutableStateOf(false) }
+    var anim = splashViewModel.startAnim.value
     val alphaAnim = animateFloatAsState(
-        targetValue = if (startAnim) 1f else 0f,
+        targetValue = if (anim) 1f else 0f,
         animationSpec = tween(
             durationMillis = DURATION_MILLIS
         )
     )
 
-    LaunchedEffect(key1 = true) {
-        startAnim = true
+     LaunchedEffect(key1 = true) {
+        anim = true
         delay(DELAY)
-        //navController.navigate(Routes.ONBOARDING_SCREEN)
+        navController.navigate(Routes.WELCOME_SCREEN)
     }
     SplashScreen(alpha = alphaAnim.value)
 }

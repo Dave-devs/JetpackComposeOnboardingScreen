@@ -1,7 +1,7 @@
 package com.example.jetpackcomposeonboardingscreen.feature_onboarding.di
 
 import android.content.Context
-import com.example.jetpackcomposeonboardingscreen.feature_onboarding.data.DatastoreRepository
+import com.example.jetpackcomposeonboardingscreen.feature_onboarding.data.DataStoreRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,8 +15,6 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideDataStoreRepository(
-        @ApplicationContext context: Context
-    ) = DatastoreRepository(context = context)
+    fun provideDataStoreRepository(@ApplicationContext context: Context) = DataStoreRepository(context = context)
 
 }

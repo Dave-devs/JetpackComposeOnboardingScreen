@@ -13,7 +13,8 @@ import kotlinx.coroutines.flow.map
 import java.io.IOException
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "on_boarding_pref")
-class DatastoreRepository(context: Context) {
+
+class DataStoreRepository(context: Context) {
 
     private object PreferencesKey {
         val onBoardingKey = booleanPreferencesKey(name = "on_boarding_completed")

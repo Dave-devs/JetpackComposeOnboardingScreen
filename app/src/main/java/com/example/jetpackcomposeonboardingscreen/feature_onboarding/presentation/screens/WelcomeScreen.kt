@@ -1,4 +1,4 @@
-package com.example.jetpackcomposeonboardingscreen.presentation.screens
+package com.example.jetpackcomposeonboardingscreen.feature_onboarding.presentation.screens
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -7,19 +7,20 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.jetpackcomposeonboardingscreen.core.util.Routes
-import com.example.jetpackcomposeonboardingscreen.presentation.viewmodel.WelcomeViewModel
+import com.example.jetpackcomposeonboardingscreen.feature_onboarding.util.Routes
+import com.example.jetpackcomposeonboardingscreen.feature_onboarding.presentation.viewmodel.WelcomeViewModel
 import com.google.accompanist.pager.*
 
 @ExperimentalAnimationApi
@@ -45,20 +46,19 @@ fun WelcomeScreen(
          state = pagerState,
          verticalAlignment = Alignment.Top
       ) { position ->
-         OnboardingScreens(onboardingItems = pages[position])
+         OnBoardingScreens(onBoardingItems = pages[position])
       }
       HorizontalPagerIndicator(
-         pagerState = pagerState,
          modifier = Modifier
-            .weight(1f)
             .align(Alignment.CenterHorizontally)
+            .weight(1f),
+         pagerState = pagerState
       )
       FinishButton(
-         pagerState = pagerState,
-         modifier = Modifier
-            .weight(1f)
+         modifier = Modifier.weight(1f),
+         pagerState = pagerState
       ) {
-         welcomeViewModel.saveOnBoardingState(true)
+         welcomeViewModel.saveOnBoardingState(completed = true)
          navController.popBackStack()
          navController.navigate(Routes.HOME_SCREEN)
       }
@@ -66,21 +66,9 @@ fun WelcomeScreen(
 }
 
 @Composable
-fun OnboardingScreens(
-   onboardingItems: OnboardingItems
+fun OnBoardingScreens(
+   onBoardingItems: OnboardingItems
 ) {
-   Row(modifier = Modifier
-      .fillMaxWidth()
-      .padding(end = 16.dp),
-      verticalAlignment = Alignment.Top,
-      horizontalArrangement = Arrangement.End
-   ) {
-      Text(
-         text = "Skip",
-         fontSize = 20.sp,
-         textAlign = TextAlign.End
-      )
-   }
    Column(
       modifier = Modifier
          .fillMaxWidth(),
@@ -88,29 +76,28 @@ fun OnboardingScreens(
       verticalArrangement = Arrangement.Top
    ) {
       Image(
-         painter = painterResource(id = onboardingItems.image),
-         contentDescription = "Item image",
          modifier = Modifier
             .fillMaxWidth(0.5f)
-            .fillMaxHeight(0.7f)
-            .size(200.dp)
+            .fillMaxHeight(0.7f),
+         painter = painterResource(id = onBoardingItems.image),
+         contentDescription = "Item image"
       )
       Text(
-         text = onboardingItems.title,
-         fontSize = 36.sp,
+         modifier = Modifier.fillMaxWidth(),
+         text = onBoardingItems.title,
+         fontSize = 34.sp,
          fontWeight = FontWeight.Bold,
-         textAlign = TextAlign.Center,
-         modifier = Modifier.fillMaxWidth()
+         textAlign = TextAlign.Center
       )
       Text(
-         text = onboardingItems.description,
-         fontSize = 20.sp,
-         fontWeight = FontWeight.Medium,
-         textAlign = TextAlign.Center,
          modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 40.dp)
-            .padding(top = 20.dp)
+            .padding(top = 20.dp),
+         text = onBoardingItems.description,
+         fontSize = 16.sp,
+         fontWeight = FontWeight.Medium,
+         textAlign = TextAlign.Center
       )
    }
 }
@@ -143,4 +130,11 @@ fun FinishButton(
         }
       }
    }
+}
+
+
+@Composable
+@Preview(showBackground = true)
+fun OnBoardingScreensPreview() {
+   OnBoardingScreens(onBoardingItems = OnboardingItems.First)
 }
